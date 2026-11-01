@@ -1,0 +1,8 @@
+# 本机备份目录(含注册表快照与任务 XML,勿上传)
+backups/
+
+# 本机 Claude Code 本地配置
+.claude/
+
+# 临时测试脚本
+*.tmp.ps1
