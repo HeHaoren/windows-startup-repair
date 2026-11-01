@@ -4,7 +4,9 @@
 
 ## 使用方法
 
-双击 **StartupRepair.bat**,在 UAC 弹窗中同意提权(部分修复需要写 HKLM 与计划任务,所以需要管理员权限)。
+**方式一(推荐):** 在 [Releases](../../releases) 下载 `StartupRepair.exe`,双击运行,在 UAC 弹窗中同意提权即可。exe 由 ps2exe 打包、未签名,浏览器或 Windows 可能提示「已保护你的电脑」(SmartScreen),点击「仍要运行」;如被安全软件拦截,请自行判断信任,或改用方式二。
+
+**方式二:** 双击 `StartupRepair.bat`(需要与 `StartupRepair.ps1` 同目录),同样自动请求提权。
 
 - **重新扫描**:读取全部自启位置,重新生成列表
 - **修复选中项**:对勾选的条目执行修复。执行前会弹出确认清单,并自动备份到 `backups\` 目录,可随时恢复

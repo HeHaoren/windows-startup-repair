@@ -6,3 +6,7 @@ backups/
 
 # 临时测试脚本
 *.tmp.ps1
+
+# 打包产物(通过 Releases 分发,不入库)
+/StartupRepair.exe
+/StartupRepair_test.exe

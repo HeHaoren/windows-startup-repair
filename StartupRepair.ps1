@@ -27,9 +27,22 @@ param(
 $ErrorActionPreference = 'Stop'
 
 # ============ 全局状态 ============
-$script:BackupRoot = Join-Path $PSScriptRoot 'backups'
-if (-not (Test-Path -LiteralPath $script:BackupRoot -ErrorAction SilentlyContinue)) {
-    New-Item -ItemType Directory -Path $script:BackupRoot -Force | Out-Null
+# 运行目录:ps1 模式用 $PSScriptRoot;ps2exe 打包后该变量不可靠,回退到 exe 所在目录
+$script:BaseDir = $PSScriptRoot
+if ([string]::IsNullOrWhiteSpace($script:BaseDir)) {
+    try { $script:BaseDir = Split-Path -Parent ([Diagnostics.Process]::GetCurrentProcess().MainModule.FileName) } catch { $script:BaseDir = '' }
+}
+$script:BackupRoot = Join-Path $script:BaseDir 'backups'
+try {
+    if (-not (Test-Path -LiteralPath $script:BackupRoot -ErrorAction SilentlyContinue)) {
+        New-Item -ItemType Directory -Path $script:BackupRoot -Force | Out-Null
+    }
+} catch {
+    # 所在目录不可写(如被放进 Program Files)时,回退到用户本地数据目录
+    $script:BackupRoot = Join-Path $env:LOCALAPPDATA 'WindowsStartupRepair\backups'
+    if (-not (Test-Path -LiteralPath $script:BackupRoot -ErrorAction SilentlyContinue)) {
+        New-Item -ItemType Directory -Path $script:BackupRoot -Force | Out-Null
+    }
 }
 $script:LogBox = $null
 $script:StatusLabel = $null
